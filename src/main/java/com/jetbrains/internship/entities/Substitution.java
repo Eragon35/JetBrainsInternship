@@ -4,28 +4,29 @@ package com.jetbrains.internship.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
 @Table(name = "substitution")
 public class Substitution {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    private String variables; //List<String, String>
-    private String substitution;
+    private String templateId;
+    @ElementCollection
+    private Map<String, String> variables;
 
     public Substitution() { }
 
-    public Substitution(String id, String variable, String substitution) {
-        this.id = id;
-        this.variables = variable;
-        this.substitution = substitution;
+    public Substitution(String templateId, Map<String, String> variables) {
+        this.templateId = templateId;
+        this.variables = variables;
     }
 
     @Override
     public String toString() {
-        return "substitution {id = " + id + ", variable = " + variables + ", sustitution = " + substitution + "}";
+        return "substitution {id = " + templateId + ", variables = " + variables + "}";
     }
 }
