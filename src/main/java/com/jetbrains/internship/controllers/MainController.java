@@ -34,6 +34,7 @@ public class MainController {
         try {
             templateRepository.save(request);
             log.info("Add new {}", request);
+            System.out.println(templateRepository.findByTemplateId(request.getTemplateId()));
             return new ResponseEntity<>("Template was saved successfully!", HttpStatus.OK);
         } catch (Exception e) {
             log.error("Unexpected Error {}", e.getMessage());
@@ -45,7 +46,8 @@ public class MainController {
     @PostMapping("/substitute")
     public ResponseEntity<String> change(@RequestBody String request) {
         JsonObject jsonObject = new JsonParser().parse(request).getAsJsonObject();
-        String templateId = jsonObject.get("templateId").toString();
+        String pretemplateId = jsonObject.get("templateId").toString();
+        String templateId = pretemplateId.substring(1, pretemplateId.length()-1);
         String variablesString = jsonObject.get("variables")
                 .toString()
                 .replace("[","")
@@ -61,7 +63,6 @@ public class MainController {
         else {
             log.info("new {} arrived", substitution);
             Template template = templateRepository.findByTemplateId(substitution.getTemplateId());
-            System.out.println(template);
             Message message = new Message(template, substitution);
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();

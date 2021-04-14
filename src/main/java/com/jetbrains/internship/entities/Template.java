@@ -29,6 +29,6 @@ public class Template {
 
     @Override
     public String toString() {
-        return "template{id = " + templateId + ", template = \"" + template + "\", recipients = " + recipients + "}";
+        return "template{id = " + templateId + ", template = " + template + ", recipients = " + recipients + "}";
     }
 }
